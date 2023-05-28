@@ -1,25 +1,43 @@
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
-import { Response } from "../types/types";
+import { Hit } from "../types/types";
+
+const priceComparator = (a: string, b: string) => {
+  const priceA = parseInt(a);
+  const priceB = parseInt(b);
+
+  if (priceA < priceB) {
+    return -1;
+  }
+  if (priceA > priceB) {
+    return 1;
+  }
+  return 0;
+};
 
 type Props = {
-  data: Response | null;
+  data: Hit[] | null;
 };
 
 export const ResultsGrid = ({ data }: Props) => {
   const columns: GridColDef[] = [
     { field: "title", headerName: "Title", width: 300, resizable: false },
-    { field: "artist", headerName: "Brand/Artist", width: 300, resizable: false },
-    { field: "current", headerName: "Price" },
-    { field: "full", headerName: "Full Price" },
-    { field: "diffPercent", headerName: "Diff. (%)" },
-    { field: "diffDollar", headerName: "Diff. ($)" },
+    {
+      field: "artist",
+      headerName: "Brand/Artist",
+      width: 300,
+      resizable: false,
+    },
+    { field: "current", headerName: "Price", sortComparator: priceComparator, valueFormatter: (params) => `$${params.value}`  },
+    { field: "full", headerName: "Full Price", sortComparator: priceComparator, valueFormatter: (params) => `$${params.value}` },
+    { field: "diffPercent", headerName: "Diff. (%)", valueFormatter: (params) => `${params.value}%` },
+    { field: "diffDollar", headerName: "Diff. ($)", sortComparator: priceComparator, valueFormatter: (params) => `$${params.value}`  },
     { field: "ean", headerName: "EAN", width: 150 },
     { field: "model", headerName: "Model" },
     { field: "availableOnline", headerName: "Available online" },
   ];
 
   const rows: GridRowsProp = data
-    ? data.results[0].hits.map((hit, index: any) => {
+    ? data.map((hit, index: any) => {
         const { pricing, product } = hit;
         const { coreTicketPrice, displayPriceInc } = pricing;
         const { ean13, model } = product;
@@ -31,10 +49,10 @@ export const ResultsGrid = ({ data }: Props) => {
           id: index,
           title: hit.title,
           artist: hit.display.artist,
-          current: `$${displayPriceInc}`,
-          full: `$${coreTicketPrice}`,
-          diffPercent: `${diffPercent}%`,
-          diffDollar: `$${diffDollar}`,
+          current: displayPriceInc,
+          full: coreTicketPrice,
+          diffPercent: diffPercent,
+          diffDollar: diffDollar,
           ean: ean13,
           model: model,
           availableOnline: hit.availability.canBuyOnline,
@@ -44,6 +62,7 @@ export const ResultsGrid = ({ data }: Props) => {
 
   return (
     <DataGrid
+      loading={!data}
       rows={rows}
       columns={columns}
       initialState={{
