@@ -1,18 +1,6 @@
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { Hit } from "../types/types";
-
-const priceComparator = (a: string, b: string) => {
-  const priceA = parseInt(a);
-  const priceB = parseInt(b);
-
-  if (priceA < priceB) {
-    return -1;
-  }
-  if (priceA > priceB) {
-    return 1;
-  }
-  return 0;
-};
+import { priceComparator } from "../helpers/grid";
 
 type Props = {
   data: Hit[] | null;
@@ -70,7 +58,7 @@ export const ResultsGrid = ({ data }: Props) => {
           paginationModel: { page: 0, pageSize: 50 },
         },
       }}
-      pageSizeOptions={[50, 100]}
+      pageSizeOptions={[50, 100, 150, 200]}
     />
   );
 };
