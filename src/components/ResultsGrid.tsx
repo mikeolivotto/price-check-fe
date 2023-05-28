@@ -1,6 +1,5 @@
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
-import { Response } from "./types/types";
-// import { data } from "./test-object";
+import { Response } from "../types/types";
 
 type Props = {
   data: Response | null;
@@ -9,7 +8,7 @@ type Props = {
 export const ResultsGrid = ({ data }: Props) => {
   const columns: GridColDef[] = [
     { field: "title", headerName: "Title", width: 300, resizable: false },
-    { field: "artist", headerName: "Artist", width: 300, resizable: false },
+    { field: "artist", headerName: "Brand/Artist", width: 300, resizable: false },
     { field: "current", headerName: "Price" },
     { field: "full", headerName: "Full Price" },
     { field: "diffPercent", headerName: "Diff. (%)" },
@@ -20,7 +19,7 @@ export const ResultsGrid = ({ data }: Props) => {
   ];
 
   const rows: GridRowsProp = data
-    ? data.results[0].hits.map((hit: any, index: any) => {
+    ? data.results[0].hits.map((hit, index: any) => {
         const { pricing, product } = hit;
         const { coreTicketPrice, displayPriceInc } = pricing;
         const { ean13, model } = product;

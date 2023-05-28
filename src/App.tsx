@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 // import { data } from "./test-object";
 import { Response } from "./types/types";
-import { ResultsGrid } from "./Results";
+import { ResultsGrid } from "./components/ResultsGrid";
 
 function App() {
   const [returnedData, setReturnedData] = useState<Response | null>(null);
@@ -15,7 +15,7 @@ function App() {
       requests: [
         {
           indexName: "shopify_products_price_asc",
-          params: `hitsPerPage=1000&page=1&filters="facets.Category": "Movies" AND ("facets.Primary Format - Movies/TV": "Blu-Ray" OR "facets.Primary Format - Movies/TV": "3D Blu-Ray") AND (price > 0 AND product_published = 1 AND availability.displayProduct = 1)&facets=["facets.Price","facets.Category","facets.Brand"]&tagFilters=`,
+          params: `hitsPerPage=1000&page=1&filters="facets.Category": "Vinyl" AND ("facets.Primary Format - Movies/TV": "Blu-Ray" OR "facets.Primary Format - Movies/TV": "3D Blu-Ray") AND (price > 0 AND product_published = 1 AND availability.displayProduct = 1)&facets=["facets.Price","facets.Category","facets.Brand"]&tagFilters=`,
         },
       ],
     };
