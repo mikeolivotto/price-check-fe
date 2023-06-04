@@ -1,18 +1,27 @@
-import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, GridTreeNodeWithRender } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridRowsProp,
+  GridTreeNodeWithRender,
+} from "@mui/x-data-grid";
 import { priceComparator } from "../helpers/grid";
 import { useGetData } from "../hooks/useGetData";
 
 type Props = {
-  category: { name: string; total: number }
+  category: { name: string; total: number };
 };
 
 export const ResultsGrid = ({ category }: Props) => {
-
   const [data, loading] = useGetData(category);
 
-  const handleCellClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>) => {
+  const handleCellClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>
+  ) => {
     const cellValue = params.row[params.field];
-    navigator.clipboard.writeText(cellValue)
+    navigator.clipboard
+      .writeText(cellValue)
       .then(() => {
         console.log("Cell contents copied to clipboard:", cellValue);
       })
@@ -20,7 +29,6 @@ export const ResultsGrid = ({ category }: Props) => {
         console.error("Error copying cell contents:", error);
       });
   };
-
 
   const columns: GridColDef[] = [
     { field: "title", headerName: "Title", width: 300, resizable: false },
@@ -63,7 +71,15 @@ export const ResultsGrid = ({ category }: Props) => {
         </div>
       ),
     },
-    { field: "model", headerName: "Model" },
+    {
+      field: "model",
+      headerName: "Model",
+      renderCell: (params) => (
+        <div onClick={(event) => handleCellClick(event, params)}>
+          {params.value}
+        </div>
+      ),
+    },
     { field: "availableOnline", headerName: "Available online" },
   ];
 
@@ -96,6 +112,7 @@ export const ResultsGrid = ({ category }: Props) => {
       loading={loading}
       rows={loading ? [] : rows}
       columns={columns}
+      density='compact'
       initialState={{
         pagination: {
           paginationModel: { page: 0, pageSize: 50 },
