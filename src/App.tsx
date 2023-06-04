@@ -1,15 +1,20 @@
+import { useState } from "react";
 import "./App.css";
 import { ResultsGrid } from "./components/ResultsGrid";
-import { useGetData } from "./hooks/useGetData";
+import { useGetCategories } from "./hooks/useGetCategories";
+import { CategorySelect } from "./components/CategorySelect";
 
 function App() {
+  const [category, setCategory] = useState<{name: string, total: number} | null>(null);
 
-  const [returnedData] = useGetData();
+
+  const [categoryData] = useGetCategories();
 
   return (
     <div className="App" style={{ height: "85vh", width: "100%" }}>
       <h1>JB Price checker</h1>
-      <ResultsGrid data={returnedData} />
+      <CategorySelect categoryData={categoryData} setCategory={setCategory} />
+      {category && <ResultsGrid category={category} />}
     </div>
   );
 }

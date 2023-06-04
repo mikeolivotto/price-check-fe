@@ -1,12 +1,27 @@
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
-import { Hit } from "../types/types";
+import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, GridTreeNodeWithRender } from "@mui/x-data-grid";
 import { priceComparator } from "../helpers/grid";
+import { useGetData } from "../hooks/useGetData";
 
 type Props = {
-  data: Hit[] | null;
+  category: { name: string; total: number }
 };
 
-export const ResultsGrid = ({ data }: Props) => {
+export const ResultsGrid = ({ category }: Props) => {
+
+  const [data, loading] = useGetData(category);
+
+  const handleCellClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>) => {
+    const cellValue = params.row[params.field];
+    navigator.clipboard.writeText(cellValue)
+      .then(() => {
+        console.log("Cell contents copied to clipboard:", cellValue);
+      })
+      .catch((error) => {
+        console.error("Error copying cell contents:", error);
+      });
+  };
+
+
   const columns: GridColDef[] = [
     { field: "title", headerName: "Title", width: 300, resizable: false },
     {
@@ -15,11 +30,39 @@ export const ResultsGrid = ({ data }: Props) => {
       width: 300,
       resizable: false,
     },
-    { field: "current", headerName: "Price", sortComparator: priceComparator, valueFormatter: (params) => `$${params.value}`  },
-    { field: "full", headerName: "Full Price", sortComparator: priceComparator, valueFormatter: (params) => `$${params.value}` },
-    { field: "diffPercent", headerName: "Diff. (%)", valueFormatter: (params) => `${params.value}%` },
-    { field: "diffDollar", headerName: "Diff. ($)", sortComparator: priceComparator, valueFormatter: (params) => `$${params.value}`  },
-    { field: "ean", headerName: "EAN", width: 150 },
+    {
+      field: "current",
+      headerName: "Price",
+      sortComparator: priceComparator,
+      valueFormatter: (params) => `$${params.value}`,
+    },
+    {
+      field: "full",
+      headerName: "Full Price",
+      sortComparator: priceComparator,
+      valueFormatter: (params) => `$${params.value}`,
+    },
+    {
+      field: "diffPercent",
+      headerName: "Diff. (%)",
+      valueFormatter: (params) => `${params.value}%`,
+    },
+    {
+      field: "diffDollar",
+      headerName: "Diff. ($)",
+      sortComparator: priceComparator,
+      valueFormatter: (params) => `$${params.value}`,
+    },
+    {
+      field: "ean",
+      headerName: "EAN",
+      width: 150,
+      renderCell: (params) => (
+        <div onClick={(event) => handleCellClick(event, params)}>
+          {params.value}
+        </div>
+      ),
+    },
     { field: "model", headerName: "Model" },
     { field: "availableOnline", headerName: "Available online" },
   ];
@@ -50,8 +93,8 @@ export const ResultsGrid = ({ data }: Props) => {
 
   return (
     <DataGrid
-      loading={!data}
-      rows={rows}
+      loading={loading}
+      rows={loading ? [] : rows}
       columns={columns}
       initialState={{
         pagination: {

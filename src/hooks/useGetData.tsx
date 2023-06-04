@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
-import { Hit, Response } from "../types/types";
+import { Hit, Response } from "../types/product-search-types";
 
-export const useGetData = () => {
+export const useGetData = (category: { name: string; total: number }): [Hit[] | null, boolean] => {
+  const pagesOfData = Math.ceil(category.total / 1000);
+  const pagesToFetch = pagesOfData > 12 ? 12 : pagesOfData;
+
   const [returnedData, setReturnedData] = useState<Hit[] | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true)
     const url =
       "https://vtvkm5urpx-1.algolianet.com/1/indexes/*/queries?x-algolia-agent=Algolia%20for%20JavaScript%20(3.35.1);%20Browser%20(lite);%20instantsearch.js%202.10.5;%20JS%20Helper%20(2.28.0)&x-algolia-application-id=VTVKM5URPX&x-algolia-api-key=a0c0108d737ad5ab54a0e2da900bf040";
 
@@ -12,13 +17,13 @@ export const useGetData = () => {
       try {
         const responseData: Hit[] = [];
 
-        // max 12 pages of results returned from algolia
-        for (let i = 0; i <= 12; i++) {
+        // TO DO - max 12 pages of results returned from algolia, handle case when results exceed 12 pages
+        for (let i = 0; i <= pagesToFetch; i++) {
           const requestBody = {
             requests: [
               {
                 indexName: "shopify_products_price_asc",
-                params: `hitsPerPage=1000&page=${i}&filters="category_hierarchy":"Vinyl" AND (price > 0 AND product_published = 1 AND availability.displayProduct = 1)&facets=["facets.Price","facets.Category","facets.Brand"]&tagFilters=`,
+                params: `hitsPerPage=1000&page=${i}&filters="category_hierarchy":"${category.name}" AND (price > 0 AND product_published = 1 AND availability.displayProduct = 1)&facets=["facets.Price","facets.Category","facets.Brand"]&tagFilters=`,
               },
             ],
           };
@@ -40,13 +45,14 @@ export const useGetData = () => {
           });
         }
         setReturnedData(responseData);
+        setLoading(false)
       } catch (error) {
         console.error("Error:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [category]);
 
-  return [returnedData];
+  return [returnedData, loading];
 };
