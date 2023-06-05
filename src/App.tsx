@@ -37,13 +37,7 @@ export default App;
 //   ^ need to run in an express server due to CORS
 // - React router - allow URL params (eg to direct link to a category type)
 // - multi-select categories
-// - dynamically change table headings based on category (eg Model vs CatNo.)
 // - download as csv
 // - Prevent re-fetching data if switching between categories and back again
 // - Do not display EAN + Model by default, only with search params or selecting some secret spot
 // - handle case when results exceed 12 pages
-
-// ALTERNATIVE COLUMN TITLES
-// Title = product
-// Band/Artist = Model Name
-// Model = Catalogue Number

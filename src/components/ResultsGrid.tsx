@@ -8,6 +8,7 @@ import {
 import { priceComparator } from "../helpers/string-helpers";
 import { useGetData } from "../hooks/useGetData";
 import Link from "@mui/material/Link";
+import { MUSIC_CATEGORIES } from "../variables";
 // import { DiscogsCheckerCell } from "./DiscogsCheckerCell";
 
 type Props = {
@@ -16,6 +17,8 @@ type Props = {
 
 export const ResultsGrid = ({ category }: Props) => {
   const [data, loading] = useGetData(category);
+  const { name } = category;
+  const isMusicCategory = MUSIC_CATEGORIES.includes(name.toLocaleLowerCase());
 
   const handleCellClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -34,26 +37,30 @@ export const ResultsGrid = ({ category }: Props) => {
 
   const columns: GridColDef[] = [
     {
-      field: "title",
-      headerName: "Title",
+      field: "product",
+      headerName: isMusicCategory ? "Release" : "Product",
       width: 300,
       resizable: false,
       renderCell: (params) => (
         <div onClick={(event) => handleCellClick(event, params)}>
-          <Link
-            href={`https://www.jbhifi.com.au/products/${params.value.slug}`}
-            underline="hover"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {params.value.title}
-          </Link>
+          {params.value.slug ? (
+            <Link
+              href={`https://www.jbhifi.com.au/products/${params.value.slug}`}
+              underline="hover"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {params.value.title}
+            </Link>
+          ) : (
+            params.value.title
+          )}
         </div>
       ),
     },
     {
       field: "artist",
-      headerName: "Brand/Artist",
+      headerName: isMusicCategory ? "Band/Artist" : "Model name",
       width: 300,
       resizable: false,
     },
@@ -61,24 +68,28 @@ export const ResultsGrid = ({ category }: Props) => {
       field: "current",
       headerName: "Price",
       sortComparator: priceComparator,
-      valueFormatter: (params) => `$${params.value}`,
+      valueFormatter: (params) =>
+        params.value ? `$${params.value.toFixed(2)}` : "-",
     },
     {
       field: "full",
       headerName: "Full Price",
       sortComparator: priceComparator,
-      valueFormatter: (params) => `$${params.value}`,
+      valueFormatter: (params) =>
+        params.value ? `$${params.value.toFixed(2)}` : "-",
     },
     {
       field: "diffPercent",
       headerName: "Diff. (%)",
-      valueFormatter: (params) => `${params.value}%`,
+      valueFormatter: (params) =>
+        isNaN(params.value) ? "-" : `${Math.round(params.value)}%`,
     },
     {
       field: "diffDollar",
       headerName: "Diff. ($)",
       sortComparator: priceComparator,
-      valueFormatter: (params) => `$${params.value}`,
+      valueFormatter: (params) =>
+        isNaN(params.value) ? "-" : `$${params.value}`,
     },
     {
       field: "ean",
@@ -93,7 +104,7 @@ export const ResultsGrid = ({ category }: Props) => {
     },
     {
       field: "model",
-      headerName: "Model",
+      headerName: isMusicCategory ? "Cat. No." : "Model No.",
       renderCell: (params) => (
         <div onClick={(event) => handleCellClick(event, params)}>
           {params.value}
@@ -114,7 +125,7 @@ export const ResultsGrid = ({ category }: Props) => {
         const diffDollar = (coreTicketPrice - displayPriceInc).toFixed(2);
         return {
           id: index,
-          title: { title: hit.title, slug: handle },
+          product: { title: hit.title, slug: handle },
           artist: hit.display.artist,
           current: displayPriceInc,
           full: coreTicketPrice,
