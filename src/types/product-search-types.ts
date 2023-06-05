@@ -1,15 +1,15 @@
-export interface Response {
-  results: Result[];
+export interface ProductSearchResponse {
+  results: ProductSearchResult[];
 }
 
-export interface Result {
+export interface ProductSearchResult {
   hits: Hit[];
   nbHits: number;
   page: number;
   nbPages: number;
   hitsPerPage: number;
-  facets: Facets3;
-  facets_stats: FacetsStats;
+  facets: ResultFacets;
+  facets_stats: ResultFacetsStats;
   exhaustiveFacetsCount: boolean;
   exhaustiveNbHits: boolean;
   exhaustiveTypo: boolean;
@@ -17,7 +17,7 @@ export interface Result {
   query: string;
   params: string;
   index: string;
-  renderingContent: RenderingContent;
+  renderingContent: {};
   processingTimeMS: number;
   processingTimingsMS: ProcessingTimingsMs;
   serverTimeMS: number;
@@ -43,7 +43,7 @@ export interface Hit {
   preamble: string;
   brand_image_url: string;
   template_name: string;
-  facets: Facets;
+  facets: HitFacets;
   banner_tags: BannerTags;
   promo_tags: PromoTag[];
   showWasPrice: boolean;
@@ -83,7 +83,7 @@ export interface Hit {
   manually_loaded?: boolean;
 }
 
-export interface Facets {
+export interface HitFacets {
   Director: string[];
   Actors: string[];
   "Film Genre": string[];
@@ -258,7 +258,7 @@ export interface Family {
   id?: string;
   title?: string;
   options?: Option[];
-  availabilities?: Availability2[];
+  availabilities?: FamilyAvailability[];
   buttons?: Button[];
   prices?: Price[];
   standAloneSkus?: string[];
@@ -278,7 +278,7 @@ export interface Children {
   Value: string;
 }
 
-export interface Availability2 {
+export interface FamilyAvailability {
   DeliveryOnly: boolean;
   SKU: string;
   DisplayProduct: boolean;
@@ -381,7 +381,7 @@ export interface Service {
   services: any[];
 }
 
-export interface Facets3 {
+export interface ResultFacets {
   "facets.Price": FacetsPrice;
   "facets.Category": FacetsCategory;
 }
@@ -391,14 +391,14 @@ export interface FacetsPrice {
 }
 
 export interface FacetsCategory {
-  Movies: number;
+  [key: string]: number;
 }
 
-export interface FacetsStats {
-  "facets.Price": FacetsPrice2;
+export interface ResultFacetsStats {
+  "facets.Price": ResultFacetsStatsPrice;
 }
 
-export interface FacetsPrice2 {
+export interface ResultFacetsStatsPrice {
   min: number;
   max: number;
   avg: number;
@@ -410,8 +410,6 @@ export interface Exhaustive {
   nbHits: boolean;
   typo: boolean;
 }
-
-export interface RenderingContent {}
 
 export interface ProcessingTimingsMs {
   afterFetch: AfterFetch;

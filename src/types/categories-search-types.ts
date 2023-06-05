@@ -1,8 +1,8 @@
-export interface Root {
-    results: Result[]
+export interface CategorySearchResponse {
+    results: CategorySearchResult[]
   }
   
-  export interface Result {
+  export interface CategorySearchResult {
     hits: any[]
     nbHits: number
     page: number
@@ -16,7 +16,7 @@ export interface Root {
     query: string
     params: string
     index: string
-    renderingContent: RenderingContent
+    renderingContent: {}
     processingTimeMS: number
     processingTimingsMS: ProcessingTimingsMs
     serverTimeMS: number
@@ -36,13 +36,11 @@ export interface Root {
     typo: boolean
   }
   
-  export interface RenderingContent {}
-  
   export interface ProcessingTimingsMs {
     afterFetch: AfterFetch
     fetch: Fetch
     getIdx: GetIdx
-    request: Request
+    request: ProcessingTimingsMsRequest
     total: number
   }
   
@@ -64,7 +62,7 @@ export interface Root {
     total: number
   }
   
-  export interface Request {
+  export interface ProcessingTimingsMsRequest {
     roundTrip: number
   }
   

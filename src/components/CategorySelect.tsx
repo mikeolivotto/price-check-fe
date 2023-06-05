@@ -2,8 +2,8 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { FacetsCategory } from "../types/categories-search-types";
 import { Dispatch, SetStateAction, useState } from "react";
+import { FacetsCategory } from "../types/product-search-types";
 
 type Props = {
   categoryData: FacetsCategory;
