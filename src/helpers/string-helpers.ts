@@ -10,3 +10,7 @@ export const priceComparator = (a: string, b: string) => {
   }
   return 0;
 };
+
+export const replaceAmpersand = (string: string, joiner: string) => {
+  return string.split(" & ").join(joiner);
+};

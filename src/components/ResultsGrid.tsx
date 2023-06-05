@@ -5,8 +5,10 @@ import {
   GridRowsProp,
   GridTreeNodeWithRender,
 } from "@mui/x-data-grid";
-import { priceComparator } from "../helpers/grid";
+import { priceComparator } from "../helpers/string-helpers";
 import { useGetData } from "../hooks/useGetData";
+import Link from "@mui/material/Link";
+// import { DiscogsCheckerCell } from "./DiscogsCheckerCell";
 
 type Props = {
   category: { name: string; total: number };
@@ -31,7 +33,24 @@ export const ResultsGrid = ({ category }: Props) => {
   };
 
   const columns: GridColDef[] = [
-    { field: "title", headerName: "Title", width: 300, resizable: false },
+    {
+      field: "title",
+      headerName: "Title",
+      width: 300,
+      resizable: false,
+      renderCell: (params) => (
+        <div onClick={(event) => handleCellClick(event, params)}>
+          <Link
+            href={`https://www.jbhifi.com.au/products/${params.value.slug}`}
+            underline="hover"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {params.value.title}
+          </Link>
+        </div>
+      ),
+    },
     {
       field: "artist",
       headerName: "Brand/Artist",
@@ -68,6 +87,7 @@ export const ResultsGrid = ({ category }: Props) => {
       renderCell: (params) => (
         <div onClick={(event) => handleCellClick(event, params)}>
           {params.value}
+          {/* <DiscogsCheckerCell value={params.value} /> */}
         </div>
       ),
     },
@@ -85,7 +105,7 @@ export const ResultsGrid = ({ category }: Props) => {
 
   const rows: GridRowsProp = data
     ? data.map((hit, index: any) => {
-        const { pricing, product } = hit;
+        const { pricing, product, handle } = hit;
         const { coreTicketPrice, displayPriceInc } = pricing;
         const { ean13, model } = product;
         const diffPercent = Math.round(
@@ -94,7 +114,7 @@ export const ResultsGrid = ({ category }: Props) => {
         const diffDollar = (coreTicketPrice - displayPriceInc).toFixed(2);
         return {
           id: index,
-          title: hit.title,
+          title: { title: hit.title, slug: handle },
           artist: hit.display.artist,
           current: displayPriceInc,
           full: coreTicketPrice,
@@ -112,7 +132,7 @@ export const ResultsGrid = ({ category }: Props) => {
       loading={loading}
       rows={loading ? [] : rows}
       columns={columns}
-      density='compact'
+      density="compact"
       initialState={{
         pagination: {
           paginationModel: { page: 0, pageSize: 50 },

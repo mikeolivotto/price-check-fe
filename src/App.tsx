@@ -3,15 +3,28 @@ import "./App.css";
 import { ResultsGrid } from "./components/ResultsGrid";
 import { useGetCategories } from "./hooks/useGetCategories";
 import { CategorySelect } from "./components/CategorySelect";
+import Typography from "@mui/material/Typography";
 
 function App() {
-  const [category, setCategory] = useState<{name: string, total: number} | null>(null);
+  const [category, setCategory] = useState<{
+    name: string;
+    total: number;
+  } | null>(null);
   const [categoryData] = useGetCategories();
 
   return (
     <div className="App" style={{ height: "75vh", width: "100%" }}>
-      <h1>JB Price checker</h1>
+      <Typography
+        component="h1"
+        variant="h2"
+        noWrap
+        sx={{ display: { xs: "none", sm: "block" } }}
+      >
+        Price checker
+      </Typography>
+      <Typography component="p">Select a product category and discover savings</Typography>
       <CategorySelect categoryData={categoryData} setCategory={setCategory} />
+
       {category && <ResultsGrid category={category} />}
     </div>
   );
@@ -20,8 +33,17 @@ function App() {
 export default App;
 
 // FEATURE IDEA + IMPROVEMENTS:
-// - Styling
+// - Discogs auto search on hover EAN/Cat No.: `https://www.discogs.com/search/ac?searchType=all&q=%{EAN}&type=a_m_r_13`
+//   ^ need to run in an express server due to CORS
+// - React router - allow URL params (eg to direct link to a category type)
+// - multi-select categories
+// - dynamically change table headings based on category (eg Model vs CatNo.)
 // - download as csv
 // - Prevent re-fetching data if switching between categories and back again
 // - Do not display EAN + Model by default, only with search params or selecting some secret spot
 // - handle case when results exceed 12 pages
+
+// ALTERNATIVE COLUMN TITLES
+// Title = product
+// Band/Artist = Model Name
+// Model = Catalogue Number

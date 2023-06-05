@@ -22,24 +22,23 @@ export const CategorySelect = ({ categoryData, setCategory }: Props) => {
   };
 
   return (
-    <div>
-      <FormControl sx={{ mb: "10px", minWidth: 120 }}>
-        <InputLabel id="category-select-label">Category</InputLabel>
-        <Select
-          labelId="category-select-label"
-          id="category-select"
-          value={value}
-          label="Category"
-          onChange={handleChange}
-          variant="standard"
-        >
-          {categories.map((category) => (
-            <MenuItem key={category} value={category}>
-              {category}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+    <FormControl sx={{ m: "10px", minWidth: 200 }} size="small">
+      <InputLabel id="category-select-label">Category</InputLabel>
+      <Select
+        labelId="category-select-label"
+        id="category-select"
+        value={value}
+        label="Category"
+        onChange={handleChange}
+        displayEmpty
+        size="small"
+      >
+        {categories.map((category) => (
+          <MenuItem key={category} value={category}>
+            {category}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 };
