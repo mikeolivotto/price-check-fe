@@ -9,7 +9,7 @@ import { priceComparator } from "../helpers/string-helpers";
 import { useGetData } from "../hooks/useGetData";
 import Link from "@mui/material/Link";
 import { MUSIC_CATEGORIES } from "../variables";
-// import { DiscogsCheckerCell } from "./DiscogsCheckerCell";
+import { DiscogsCheckerCell } from "./DiscogsCheckerCell";
 
 type Props = {
   category: { name: string; total: number };
@@ -97,8 +97,7 @@ export const ResultsGrid = ({ category }: Props) => {
       width: 150,
       renderCell: (params) => (
         <div onClick={(event) => handleCellClick(event, params)}>
-          {params.value}
-          {/* <DiscogsCheckerCell value={params.value} /> */}
+          <DiscogsCheckerCell value={params.value} />
         </div>
       ),
     },
