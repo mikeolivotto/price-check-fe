@@ -36,6 +36,10 @@ export const ResultsGrid = ({ category }: Props) => {
       });
   };
 
+  const availabilityOptions = data
+  ? Array.from(new Set(data.map((hit) => hit.availability.availabilityStatement)))
+  : [];
+
   const columns: GridColDef[] = [
     {
       field: "product",
@@ -68,6 +72,7 @@ export const ResultsGrid = ({ category }: Props) => {
     {
       field: "current",
       headerName: "Price",
+      type: "number",
       sortComparator: priceComparator,
       valueFormatter: (params) =>
         params.value ? `$${params.value.toFixed(2)}` : "-",
@@ -75,7 +80,7 @@ export const ResultsGrid = ({ category }: Props) => {
     {
       field: "full",
       headerName: "Full Price",
-      // filterOperators: 
+      type: "number",
       sortComparator: priceComparator,
       valueFormatter: (params) =>
         params.value ? `$${params.value.toFixed(2)}` : "-",
@@ -83,12 +88,14 @@ export const ResultsGrid = ({ category }: Props) => {
     {
       field: "diffPercent",
       headerName: "Diff. (%)",
+      type: "number",
       valueFormatter: (params) =>
         isNaN(params.value) ? "-" : `${Math.round(params.value)}%`,
     },
     {
       field: "diffDollar",
       headerName: "Diff. ($)",
+      type: "number",
       sortComparator: priceComparator,
       valueFormatter: (params) =>
         isNaN(params.value) ? "-" : `$${params.value}`,
@@ -112,12 +119,20 @@ export const ResultsGrid = ({ category }: Props) => {
         </div>
       ),
     },
-    { field: "availableOnline", headerName: "Available online" },
+    {
+      field: "availability",
+      headerName: "Availability",
+      width: 250,
+      type: "singleSelect",
+      valueOptions: availabilityOptions,
+    },
   ];
+
+
 
   const rows: GridRowsProp = data
     ? data.map((hit, index: any) => {
-        const { pricing, product, handle } = hit;
+        const { availability, display, pricing, product, handle, title } = hit;
         const { coreTicketPrice, displayPriceInc } = pricing;
         const { ean13, model } = product;
         const diffPercent = Math.round(
@@ -126,15 +141,15 @@ export const ResultsGrid = ({ category }: Props) => {
         const diffDollar = (coreTicketPrice - displayPriceInc).toFixed(2);
         return {
           id: index,
-          product: { title: hit.title, slug: handle },
-          artist: hit.display.artist,
+          product: { title: title, slug: handle },
+          artist: display.artist,
           current: displayPriceInc,
           full: coreTicketPrice,
           diffPercent: diffPercent,
           diffDollar: diffDollar,
           ean: ean13,
           model: model,
-          availableOnline: hit.availability.availabilityStatement,
+          availability: availability.availabilityStatement,
         };
       })
     : [];
