@@ -10,6 +10,7 @@ import { useGetData } from "../hooks/useGetData";
 import Link from "@mui/material/Link";
 import { MUSIC_CATEGORIES } from "../variables";
 import { DiscogsCheckerCell } from "./DiscogsCheckerCell";
+import { Toolbar } from "./Toolbar";
 
 type Props = {
   category: { name: string; total: number };
@@ -74,6 +75,7 @@ export const ResultsGrid = ({ category }: Props) => {
     {
       field: "full",
       headerName: "Full Price",
+      // filterOperators: 
       sortComparator: priceComparator,
       valueFormatter: (params) =>
         params.value ? `$${params.value.toFixed(2)}` : "-",
@@ -132,7 +134,7 @@ export const ResultsGrid = ({ category }: Props) => {
           diffDollar: diffDollar,
           ean: ean13,
           model: model,
-          availableOnline: hit.availability.canBuyOnline,
+          availableOnline: hit.availability.availabilityStatement,
         };
       })
     : [];
@@ -143,6 +145,9 @@ export const ResultsGrid = ({ category }: Props) => {
       rows={loading ? [] : rows}
       columns={columns}
       density="compact"
+      slots={{
+        toolbar: Toolbar,
+      }}
       initialState={{
         pagination: {
           paginationModel: { page: 0, pageSize: 50 },

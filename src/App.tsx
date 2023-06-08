@@ -33,6 +33,8 @@ function App() {
 export default App;
 
 // FEATURE IDEA + IMPROVEMENTS:
+// is there a way to filter columns by value (eg <$50)?
+
 // - Hook into Amazon API to compare price
 // - Discogs auto search on hover EAN/Cat No.: `https://www.discogs.com/search/ac?searchType=all&q=%{EAN}&type=a_m_r_13`
 //   ^ need to run in an express server due to CORS
