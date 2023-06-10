@@ -11,12 +11,14 @@ import Link from "@mui/material/Link";
 import { MUSIC_CATEGORIES } from "../variables";
 import { DiscogsCheckerCell } from "./DiscogsCheckerCell";
 import { Toolbar } from "./Toolbar";
+import { useParams } from "react-router-dom";
 
 type Props = {
   category: { name: string; total: number };
 };
 
 export const ResultsGrid = ({ category }: Props) => {
+  const { category: urlCategory } = useParams();
   const [data, loading] = useGetData(category);
   const { name } = category;
   const isMusicCategory = MUSIC_CATEGORIES.includes(name.toLocaleLowerCase());
@@ -37,10 +39,13 @@ export const ResultsGrid = ({ category }: Props) => {
   };
 
   const availabilityOptions = data
-  ? Array.from(new Set(data.map((hit) => hit.availability.availabilityStatement)))
-  : [];
+    ? Array.from(
+        new Set(data.map((hit) => hit.availability.availabilityStatement))
+      )
+    : [];
 
-  const columns: GridColDef[] = [
+
+  const coldDefs: GridColDef[] = [
     {
       field: "product",
       headerName: isMusicCategory ? "Release" : "Product",
@@ -128,7 +133,7 @@ export const ResultsGrid = ({ category }: Props) => {
     },
   ];
 
-
+  const columns = urlCategory !== "secret" ? coldDefs.filter((col) => !((col.field === "ean") || (col.field === "model"))) : coldDefs
 
   const rows: GridRowsProp = data
     ? data.map((hit, index: any) => {
@@ -139,7 +144,8 @@ export const ResultsGrid = ({ category }: Props) => {
           ((coreTicketPrice - displayPriceInc) / coreTicketPrice) * 100
         );
         const diffDollar = (coreTicketPrice - displayPriceInc).toFixed(2);
-        return {
+
+        const rowData = {
           id: index,
           product: { title: title, slug: handle },
           artist: display.artist,
@@ -147,10 +153,17 @@ export const ResultsGrid = ({ category }: Props) => {
           full: coreTicketPrice,
           diffPercent: diffPercent,
           diffDollar: diffDollar,
-          ean: ean13,
-          model: model,
           availability: availability.availabilityStatement,
         };
+
+        if (urlCategory === "secret") {
+          return {
+            ...rowData,
+            ean: ean13,
+            model: model,
+          };
+        }
+        return rowData;
       })
     : [];
 

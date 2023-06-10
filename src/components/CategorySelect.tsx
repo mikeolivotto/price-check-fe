@@ -2,8 +2,9 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FacetsCategory } from "../types/product-search-types";
+import { useParams } from "react-router-dom";
 
 type Props = {
   categoryData: FacetsCategory;
@@ -13,10 +14,19 @@ type Props = {
 export const CategorySelect = ({ categoryData, setCategory }: Props) => {
   const [value, setValue] = useState("");
   const categories = Object.keys(categoryData).sort();
+  const { categoryName } = useParams();
+
+  useEffect(() => {
+    if (categoryName) {
+      setValue(categoryName);
+      const total = categoryData[categoryName];
+      setCategory({ name: categoryName, total });
+    }
+  }, []);
 
   const handleChange = (event: SelectChangeEvent) => {
     const categoryName = event.target.value;
-    setValue(categoryName as string);
+    setValue(categoryName);
     const total = categoryData[categoryName];
     setCategory({ name: categoryName, total });
   };
