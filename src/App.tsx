@@ -1,24 +1,36 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
-import Home from "./components/Home";
 import { useCategoryData } from "./hooks/useCategoryData";
 import { useEffect } from "react";
+import Typography from "@mui/material/Typography";
+import { CategorySelect } from "./components/CategorySelect";
+import { ResultsGrid } from "./components/ResultsGrid";
 
 function App() {
-  const { fetchCategories } = useCategoryData();
+  const { selectedCategory, categories, fetchCategories } = useCategoryData();
   useEffect(() => {
     fetchCategories();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/:section" element={<Home />}>
-        <Route path=":categoryName" element={<Home />} />
-      </Route>
-      <Route path="contact" element={"howdy"} />
-    </Routes>
+    //   const params = useParams();
+
+    <div className="App" style={{ height: "75vh", width: "100%" }}>
+      <Typography
+        component="h1"
+        variant="h2"
+        noWrap
+        sx={{ display: { xs: "none", sm: "block" } }}
+      >
+        Price checker
+      </Typography>
+      <Typography component="p">
+        Select a product category and discover savings
+      </Typography>
+      {categories && <CategorySelect />}
+
+      {selectedCategory && <ResultsGrid category={selectedCategory} />}
+    </div>
   );
 }
 
