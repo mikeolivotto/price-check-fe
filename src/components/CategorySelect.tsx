@@ -2,33 +2,21 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { FacetsCategory } from "../types/product-search-types";
-import { useParams } from "react-router-dom";
+import { useCategoryData } from "../hooks/useCategoryData";
 
-type Props = {
-  categoryData: FacetsCategory;
-  setCategory: Dispatch<SetStateAction<{ name: string; total: number } | null>>;
-};
+export const CategorySelect = () => {
+  const {
+    categories: categoryData,
+    selectedCategory,
+    setSelectedCategory,
+  } = useCategoryData();
 
-export const CategorySelect = ({ categoryData, setCategory }: Props) => {
-  const [value, setValue] = useState("");
-  const categories = Object.keys(categoryData).sort();
-  const { categoryName } = useParams();
-
-  useEffect(() => {
-    if (categoryName) {
-      setValue(categoryName);
-      const total = categoryData[categoryName];
-      setCategory({ name: categoryName, total });
-    }
-  }, []);
+  const categories = categoryData ? Object.keys(categoryData).sort() : [];
 
   const handleChange = (event: SelectChangeEvent) => {
     const categoryName = event.target.value;
-    setValue(categoryName);
-    const total = categoryData[categoryName];
-    setCategory({ name: categoryName, total });
+    const total = categoryData ? categoryData[categoryName] : 0;
+    setSelectedCategory(categoryName, total);
   };
 
   return (
@@ -37,7 +25,7 @@ export const CategorySelect = ({ categoryData, setCategory }: Props) => {
       <Select
         labelId="category-select-label"
         id="category-select"
-        value={value}
+        value={selectedCategory?.name || ""}
         label="Category"
         onChange={handleChange}
         displayEmpty

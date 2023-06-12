@@ -1,8 +1,15 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
+import { useCategoryData } from "./hooks/useCategoryData";
+import { useEffect } from "react";
 
 function App() {
+  const { fetchCategories } = useCategoryData();
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -17,6 +24,7 @@ function App() {
 export default App;
 
 // FEATURE IDEA + IMPROVEMENTS
+// set up a zustand store so selected categories and fetched data can be stored
 // progess bar on fetches?
 // not all categories are showing (eg electric bikes). Figure out why
 // onPromotion facet allows to show current specials

@@ -1,15 +1,10 @@
-import { useState } from "react";
 import { ResultsGrid } from "./ResultsGrid";
-import { useGetCategories } from "../hooks/useGetCategories";
 import { CategorySelect } from "./CategorySelect";
 import Typography from "@mui/material/Typography";
+import { useCategoryData } from "../hooks/useCategoryData";
 
 export const Home = () => {
-  const [category, setCategory] = useState<{
-    name: string;
-    total: number;
-  } | null>(null);
-  const [categoryData] = useGetCategories();
+  const { selectedCategory, categories } = useCategoryData();
 
   return (
     <div className="App" style={{ height: "75vh", width: "100%" }}>
@@ -24,9 +19,9 @@ export const Home = () => {
       <Typography component="p">
         Select a product category and discover savings
       </Typography>
-      <CategorySelect categoryData={categoryData} setCategory={setCategory} />
+      {categories && <CategorySelect />}
 
-      {category && <ResultsGrid category={category} />}
+      {selectedCategory && <ResultsGrid category={selectedCategory} />}
     </div>
   );
 };
@@ -35,6 +30,7 @@ export default Home;
 
 // FEATURE IDEA + IMPROVEMENTS
 // progess bar on fetches?
+// give users more descriptive info when running into errors on request
 // not all categories are showing (eg electric bikes). Figure out why
 // onPromotion facet allows to show current specials
 // - Hook into Amazon API to compare price
