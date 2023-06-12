@@ -2,9 +2,11 @@ import { ResultsGrid } from "./ResultsGrid";
 import { CategorySelect } from "./CategorySelect";
 import Typography from "@mui/material/Typography";
 import { useCategoryData } from "../hooks/useCategoryData";
+import { useParams } from "react-router";
 
 export const Home = () => {
   const { selectedCategory, categories } = useCategoryData();
+//   const params = useParams();
 
   return (
     <div className="App" style={{ height: "75vh", width: "100%" }}>

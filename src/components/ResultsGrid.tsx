@@ -6,12 +6,13 @@ import {
   GridTreeNodeWithRender,
 } from "@mui/x-data-grid";
 import { priceComparator } from "../helpers/string-helpers";
-import { useGetData } from "../hooks/useGetProductData";
+import { useGetProductData } from "../hooks/useGetProductData";
 import Link from "@mui/material/Link";
 import { MUSIC_CATEGORIES } from "../variables";
 import { DiscogsCheckerCell } from "./DiscogsCheckerCell";
 import { Toolbar } from "./Toolbar";
 import { CustomNoRowsOverlay } from "./NoRowsOverlay";
+import { useParams } from "react-router-dom";
 
 type Props = {
   category: {
@@ -21,12 +22,12 @@ type Props = {
 };
 
 export const ResultsGrid = ({ category }: Props) => {
-  const [data, loading] = useGetData(category);
+  const [data, loading] = useGetProductData(category);
   const { name } = category;
 
-  const isMusicCategory = MUSIC_CATEGORIES.includes(
-    name.toLocaleLowerCase()
-  );
+  const { section } = useParams();
+
+  const isMusicCategory = MUSIC_CATEGORIES.includes(name.toLocaleLowerCase());
 
   const handleCellClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -137,8 +138,10 @@ export const ResultsGrid = ({ category }: Props) => {
     },
   ];
 
-  // const columns = urlCategory !== "secret" ? coldDefs.filter((col) => !((col.field === "ean") || (col.field === "model"))) : coldDefs
-  const columns = colDefs;
+  const columns =
+    section !== "secret"
+      ? colDefs.filter((col) => !(col.field === "ean" || col.field === "model"))
+      : colDefs;
 
   const rows: GridRowsProp = data
     ? data.map((hit, index: any) => {
@@ -161,14 +164,14 @@ export const ResultsGrid = ({ category }: Props) => {
           availability: availability.availabilityStatement,
         };
 
-        // if (urlCategory === "secret") {
-        return {
-          ...rowData,
-          ean: ean13,
-          model: model,
-        };
-        // }
-        // return rowData;
+        if (section === "secret") {
+          return {
+            ...rowData,
+            ean: ean13,
+            model: model,
+          };
+        }
+        return rowData;
       })
     : [];
 

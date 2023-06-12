@@ -7,13 +7,14 @@ import { useEffect } from "react";
 function App() {
   const { fetchCategories } = useCategoryData();
   useEffect(() => {
-    fetchCategories()
-  }, [])
+    fetchCategories();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/:category" element={<Home />}>
+      <Route path="/:section" element={<Home />}>
         <Route path=":categoryName" element={<Home />} />
       </Route>
       <Route path="contact" element={"howdy"} />

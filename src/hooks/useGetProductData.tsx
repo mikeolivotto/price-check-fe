@@ -40,11 +40,10 @@ export const fetchCategoryProductData = async (categoryName: string, pagesToFetc
   }
 };
 
-export const useGetData = (category: {
+export const useGetProductData = (category: {
   name: string;
   total: number;
 }): [Hit[] | null, boolean] => {
-  // debugger;
   const [returnedData, setReturnedData] = useState<Hit[] | null>(null);
   const [loading, setLoading] = useState(false);
 
