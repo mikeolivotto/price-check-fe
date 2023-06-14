@@ -10,7 +10,7 @@ import { useGetProductData } from "../hooks/useGetProductData";
 import Link from "@mui/material/Link";
 import { MUSIC_CATEGORIES } from "../variables";
 import { DiscogsCheckerCell } from "./DiscogsCheckerCell";
-import { Toolbar } from "./Toolbar";
+import { GridToolbar } from "./GridToolbar";
 import { CustomNoRowsOverlay } from "./NoRowsOverlay";
 import { useParams } from "react-router-dom";
 
@@ -64,6 +64,7 @@ export const ResultsGrid = ({ category }: Props) => {
               underline="hover"
               target="_blank"
               rel="noreferrer"
+              color="secondary"
             >
               {params.value.title}
             </Link>
@@ -182,7 +183,7 @@ export const ResultsGrid = ({ category }: Props) => {
       columns={columns}
       density="compact"
       slots={{
-        toolbar: Toolbar,
+        toolbar: GridToolbar,
         noRowsOverlay: CustomNoRowsOverlay,
       }}
       initialState={{

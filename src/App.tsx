@@ -4,6 +4,9 @@ import { useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import { CategorySelect } from "./components/CategorySelect";
 import { ResultsGrid } from "./components/ResultsGrid";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import PriceChangeIcon from "@mui/icons-material/PriceChange";
 
 function App() {
   const { selectedCategory, categories, fetchCategories } = useCategoryData();
@@ -12,19 +15,18 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  //   const params = useParams();
   return (
-    //   const params = useParams();
-
     <div className="App" style={{ height: "75vh", width: "100%" }}>
-      <Typography
-        component="h1"
-        variant="h2"
-        noWrap
-        sx={{ display: { xs: "none", sm: "block" } }}
-      >
-        Price checker
-      </Typography>
-      <Typography component="p">
+      <AppBar position="static" sx={{ mr: 2}}>
+        <Toolbar variant="dense">
+          <PriceChangeIcon fontSize="large" sx={{ mr: 2}} />
+          <Typography variant="h6" component="div">
+            Price Checker
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Typography component="p" sx={{ mt: "10px" }} color="secondary">
         Select a product category and discover savings
       </Typography>
       {categories && <CategorySelect />}
@@ -37,7 +39,6 @@ function App() {
 export default App;
 
 // FEATURE IDEA + IMPROVEMENTS
-// set up a zustand store so selected categories and fetched data can be stored
 // progess bar on fetches?
 // not all categories are showing (eg electric bikes). Figure out why
 // onPromotion facet allows to show current specials

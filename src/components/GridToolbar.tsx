@@ -5,7 +5,7 @@ import {
   GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
 
-export const Toolbar = () => {
+export const GridToolbar = () => {
   return (
     <GridToolbarContainer
       sx={{
