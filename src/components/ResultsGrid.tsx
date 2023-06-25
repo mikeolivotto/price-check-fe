@@ -97,15 +97,15 @@ export const ResultsGrid = ({ category }: Props) => {
         params.value ? `$${params.value.toFixed(2)}` : "-",
     },
     {
-      field: "diffPercent",
-      headerName: "Diff. (%)",
+      field: "savePercent",
+      headerName: "Save (%)",
       type: "number",
       valueFormatter: (params) =>
         isNaN(params.value) ? "-" : `${Math.round(params.value)}%`,
     },
     {
-      field: "diffDollar",
-      headerName: "Diff. ($)",
+      field: "saveDollar",
+      headerName: "Save ($)",
       type: "number",
       sortComparator: priceComparator,
       valueFormatter: (params) =>
@@ -149,10 +149,10 @@ export const ResultsGrid = ({ category }: Props) => {
         const { availability, display, pricing, product, handle, title } = hit;
         const { coreTicketPrice, displayPriceInc } = pricing;
         const { ean13, model } = product;
-        const diffPercent = Math.round(
+        const savePercent = Math.round(
           ((coreTicketPrice - displayPriceInc) / coreTicketPrice) * 100
         );
-        const diffDollar = (coreTicketPrice - displayPriceInc).toFixed(2);
+        const saveDollar = (coreTicketPrice - displayPriceInc).toFixed(2);
 
         const rowData = {
           id: index,
@@ -161,8 +161,8 @@ export const ResultsGrid = ({ category }: Props) => {
           artist: display.artist,
           current: displayPriceInc,
           full: coreTicketPrice,
-          diffPercent: diffPercent,
-          diffDollar: diffDollar,
+          savePercent: savePercent,
+          saveDollar: saveDollar,
           availability: availability.availabilityStatement,
         };
 
