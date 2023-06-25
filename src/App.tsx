@@ -15,7 +15,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //   const params = useParams();
   return (
     <div className="App" style={{ height: "75vh", width: "100%" }}>
       <AppBar position="static" sx={{ mr: 2}}>
@@ -43,13 +42,9 @@ export default App;
 // not all categories are showing (eg electric bikes). Figure out why
 // onPromotion facet allows to show current specials
 // - Hook into Amazon API to compare price
-// - Discogs auto search on hover EAN/Cat No.: `https://www.discogs.com/search/ac?searchType=all&q=%{EAN}&type=a_m_r_13`
-//   ^ need to run in an express server due to CORS
-// - React router - allow URL params (eg to direct link to a category type)
 // - multi-select categories
 // - download as csv
 // - Prevent re-fetching data if switching between categories and back again
-// - Do not display EAN + Model by default, only with search params or selecting some secret spot
 // - handle case when results exceed 12 pages
 
 // CATEGORIES

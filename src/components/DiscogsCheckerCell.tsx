@@ -9,6 +9,7 @@ type Props = {
 export const DiscogsCheckerCell = ({ value }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [displayData, setDisplayData] = useState<[] | null>(null);
+  const [errorText, setErrorText] = useState<string | null>(null);
 
   const fetchData = async () => {
     try {
@@ -21,6 +22,7 @@ export const DiscogsCheckerCell = ({ value }: Props) => {
       const data = await response.json();
       return setDisplayData(data);
     } catch (error) {
+      setErrorText('Error: Unable to fetch data')
       console.error("Error:", error);
     }
   };
@@ -38,9 +40,14 @@ export const DiscogsCheckerCell = ({ value }: Props) => {
   const filteredData = displayData?.filter((hit: any) => hit.marketplace);
 
   const showThis = () => {
-    if (!displayData) {
+    if (!displayData && !errorText) {
       return <CircularProgress size={20} />
     }
+
+    if (errorText) {
+      return <div>{errorText}</div>
+    }
+
     if (!!filteredData && filteredData.length > 0) {
       return filteredData.map((hit: any) => (
         <div>{`${hit.marketplace.quantity} copies from $${hit.marketplace.min.toFixed(2)}`}</div>

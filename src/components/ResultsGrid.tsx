@@ -58,18 +58,18 @@ export const ResultsGrid = ({ category }: Props) => {
       resizable: false,
       renderCell: (params) => (
         <div onClick={(event) => handleCellClick(event, params)}>
-          {params.value.slug ? (
+          {params.row.slug ? (
             <Link
-              href={`https://www.jbhifi.com.au/products/${params.value.slug}`}
+              href={`https://www.jbhifi.com.au/products/${params.row.slug}`}
               underline="hover"
               target="_blank"
               rel="noreferrer"
               color="secondary"
             >
-              {params.value.title}
+              {params.row.product}
             </Link>
           ) : (
-            params.value.title
+            params.row.product
           )}
         </div>
       ),
@@ -126,7 +126,7 @@ export const ResultsGrid = ({ category }: Props) => {
       headerName: isMusicCategory ? "Cat. No." : "Model No.",
       renderCell: (params) => (
         <div onClick={(event) => handleCellClick(event, params)}>
-          {params.value}
+          <DiscogsCheckerCell value={params.value} />
         </div>
       ),
     },
@@ -156,7 +156,8 @@ export const ResultsGrid = ({ category }: Props) => {
 
         const rowData = {
           id: index,
-          product: { title: title, slug: handle },
+          product: title,
+          slug: handle,
           artist: display.artist,
           current: displayPriceInc,
           full: coreTicketPrice,
