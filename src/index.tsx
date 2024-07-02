@@ -10,6 +10,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./helpers/theme";
+import { SteppedLineChart } from "./components/SteppedLineChart";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -25,6 +26,7 @@ root.render(
             <Route path=":categoryName" element={<App />} />
           </Route>
           <Route path="contact" element={"howdy"} />
+          <Route path="/ean/:ean" element={<SteppedLineChart />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

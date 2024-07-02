@@ -7,12 +7,13 @@ import {
 } from "@mui/x-data-grid";
 import { priceComparator } from "../helpers/string-helpers";
 import { useGetProductData } from "../hooks/useGetProductData";
-import Link from "@mui/material/Link";
+import ExternalLink from "@mui/material/Link";
 import { MUSIC_CATEGORIES } from "../variables";
 import { DiscogsCheckerCell } from "./DiscogsCheckerCell";
 import { GridToolbar } from "./GridToolbar";
 import { CustomNoRowsOverlay } from "./NoRowsOverlay";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 type Props = {
   category: {
@@ -59,7 +60,7 @@ export const ResultsGrid = ({ category }: Props) => {
       renderCell: (params) => (
         <div onClick={(event) => handleCellClick(event, params)}>
           {params.row.slug ? (
-            <Link
+            <ExternalLink
               href={`https://www.jbhifi.com.au/products/${params.row.slug}`}
               underline="hover"
               target="_blank"
@@ -67,7 +68,7 @@ export const ResultsGrid = ({ category }: Props) => {
               color="secondary"
             >
               {params.row.product}
-            </Link>
+            </ExternalLink>
           ) : (
             params.row.product
           )}
@@ -85,8 +86,11 @@ export const ResultsGrid = ({ category }: Props) => {
       headerName: "Price",
       type: "number",
       sortComparator: priceComparator,
-      valueFormatter: (params) =>
-        params.value ? `$${params.value.toFixed(2)}` : "-",
+      // valueFormatter: (params) =>
+      //   params.value ? `$${params.value.toFixed(2)}` : "-",
+      renderCell: (params) => {
+        return <Link to={`/ean/${params.row.ean}`} >${params.value.toFixed(2)}</Link>
+      }
     },
     {
       field: "full",

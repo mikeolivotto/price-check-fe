@@ -17,9 +17,9 @@ function App() {
 
   return (
     <div className="App" style={{ height: "75vh", width: "100%" }}>
-      <AppBar position="static" sx={{ mr: 2}}>
+      <AppBar position="static" sx={{ mr: 2 }}>
         <Toolbar variant="dense">
-          <PriceChangeIcon fontSize="large" sx={{ mr: 2}} />
+          <PriceChangeIcon fontSize="large" sx={{ mr: 2 }} />
           <Typography variant="h6" component="div">
             Price Checker
           </Typography>
