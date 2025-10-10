@@ -63,7 +63,7 @@ export const useGetProductData = (category: {
           const requestBody = {
             requests: [
               {
-                indexName: "shopify_products_price_asc",
+                indexName: "shopify_products_families_price_asc",
                 params: `hitsPerPage=1000&page=${i}&filters="category_hierarchy":"${categoryName}" AND (price > 0 AND product_published = 1 AND availability.displayProduct = 1)&facets=["facets.Price","facets.Category","facets.Brand"]&tagFilters=`,
               },
             ],

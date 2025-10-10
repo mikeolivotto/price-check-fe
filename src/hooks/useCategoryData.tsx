@@ -8,7 +8,7 @@ export const fetchCategoryData = async () => {
     const requestBody = {
       requests: [
         {
-          indexName: "shopify_products_price_asc",
+          indexName: "shopify_products_families_price_asc",
           params: `hitsPerPage=0&facets=["facets.Category"]&filters=(price > 0 AND product_published = 1 AND availability.displayProduct = 1)`,
         },
       ],
