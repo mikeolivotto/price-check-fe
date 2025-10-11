@@ -24,16 +24,3 @@ function App() {
 }
 
 export default App;
-
-// FEATURE IDEA + IMPROVEMENTS
-// progess bar on fetches?
-// not all categories are showing (eg electric bikes). Figure out why
-// onPromotion facet allows to show current specials
-// - Hook into Amazon API to compare price
-// - multi-select categories
-// - download as csv
-// - Prevent re-fetching data if switching between categories and back again
-// - handle case when results exceed 12 pages
-
-// CATEGORIES
-// when going into a top-level category page, the network request shows a range of subcategories (can be seen in the filter at the top left of the results)

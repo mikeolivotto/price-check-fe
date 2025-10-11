@@ -44,7 +44,7 @@ interface CategoriesState {
   setSelectedCategory: (categoryName: string, total: number) => void;
 }
 
-export const useCategoryData = create<CategoriesState>((set, get) => ({
+export const useCategoryData = create<CategoriesState>((set) => ({
   categories: undefined,
   selectedCategory: undefined,
   selectedCategoryProducts: null,

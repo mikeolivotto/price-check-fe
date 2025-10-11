@@ -33,7 +33,7 @@ export const ResultsGrid = ({ category }: Props) => {
   const isMusicCategory = MUSIC_CATEGORIES.includes(name.toLocaleLowerCase());
 
   const handleCellClick = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>,
   ) => {
     const cellValue = params.row[params.field];

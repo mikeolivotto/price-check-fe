@@ -1,46 +1,143 @@
-# Getting Started with Create React App
+# Price Check Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React application for checking prices of products at JB Hi-Fi
+
+## Tech Stack
+
+- **React 18** - UI library
+- **TypeScript 5** - Type safety
+- **Vite 6** - Build tool and dev server
+- **Material-UI** - Component library
+- **Zustand** - State management
+- **React Router** - Routing
+- **Chart.js** - Data visualization
+- **ESLint 9 + Prettier** - Code quality and formatting
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 22.11.0 or higher
+- Yarn package manager
+
+### Installation
+
+```bash
+yarn install
+```
+
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```
+PORT=3005
+```
 
 ## Available Scripts
 
-In the project directory, you can run:
+### `yarn dev`
 
-### `yarn start`
+Runs the app in development mode with hot module replacement (HMR).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Opens automatically at [http://localhost:3005](http://localhost:3005)
+- Changes are reflected instantly without full page reload
+- TypeScript errors and linting warnings appear in the console
 
 ### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Runs TypeScript compiler for type checking
+- Creates optimized bundles with code splitting
+- Minifies code and includes content hashes in filenames
+- Ready for deployment
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `yarn preview`
 
-### `yarn eject`
+Preview the production build locally before deploying.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Serves the built app from the `build` folder
+- Useful for testing production optimizations
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `yarn lint`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Runs ESLint to check for code quality issues.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Checks for unused variables, React best practices, and more
+- Enforces string literals without curly braces in JSX props
+
+### `yarn lint:fix`
+
+Automatically fixes ESLint issues where possible.
+
+- Removes unnecessary curly braces from string props
+- Fixes formatting issues
+- Run this before committing code
+
+### `yarn format`
+
+Formats code with Prettier.
+
+- Ensures consistent code style across the project
+- Formats TypeScript, JavaScript, JSON, CSS, and Markdown files
+
+### `yarn format:check`
+
+Checks if code is properly formatted without making changes.
+
+- Useful for CI/CD pipelines
+- Returns error if any files need formatting
+
+## Code Quality
+
+This project uses:
+
+- **ESLint v9** with TypeScript, React, and React Hooks plugins
+- **Prettier** for consistent code formatting
+- **TypeScript strict mode** for maximum type safety
+
+### VSCode Setup
+
+For the best development experience, install these extensions:
+
+- ESLint
+- Prettier - Code formatter
+
+Add to your VSCode settings:
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esrvscode.vscode-prettier",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+```
+
+## Project Structure
+
+```
+price-check-fe/
+├── src/
+│   ├── components/      # React components
+│   ├── hooks/           # Custom React hooks
+│   ├── helpers/         # Utility functions
+│   ├── types/           # TypeScript type definitions
+│   ├── constants.ts     # App constants
+│   ├── App.tsx          # Main app component
+│   └── index.tsx        # Entry point
+├── public/              # Static assets
+├── index.html           # HTML template
+├── vite.config.ts       # Vite configuration
+├── tsconfig.json        # TypeScript configuration
+└── eslint.config.js     # ESLint configuration
+```
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [Vite Documentation](https://vitejs.dev/)
+- [React Documentation](https://react.dev/)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [Material-UI Documentation](https://mui.com/)

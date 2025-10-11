@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
 import prettier from "eslint-config-prettier";
 import tsParser from "@typescript-eslint/parser";
 
@@ -38,6 +39,7 @@ export default [
     plugins: {
       react,
       "react-hooks": reactHooks,
+      "@typescript-eslint": tsPlugin,
     },
     settings: {
       react: {
@@ -52,6 +54,18 @@ export default [
       "react/jsx-curly-brace-presence": [
         "error",
         { props: "never", children: "ignore" },
+      ],
+      // Disable base rule as it can report incorrect errors
+      "no-unused-vars": "off",
+      // Use TypeScript ESLint version instead
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrors: "all",
+          caughtErrorsIgnorePattern: "^_",
+        },
       ],
     },
   },

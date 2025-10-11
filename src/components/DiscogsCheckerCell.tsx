@@ -49,8 +49,8 @@ export const DiscogsCheckerCell = ({ value }: Props) => {
     }
 
     if (!!filteredData && filteredData.length > 0) {
-      return filteredData.map((hit: any) => (
-        <div>{`${hit.marketplace.quantity} copies from $${hit.marketplace.min.toFixed(2)}`}</div>
+      return filteredData.map((hit: any, index: number) => (
+        <div key={index}>{`${hit.marketplace.quantity} copies from $${hit.marketplace.min.toFixed(2)}`}</div>
       ))
     }
     return "No data available"
