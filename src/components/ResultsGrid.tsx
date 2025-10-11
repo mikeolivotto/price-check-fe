@@ -8,12 +8,14 @@ import {
 import { priceComparator } from "../helpers/string-helpers";
 import { useGetProductData } from "../hooks/useGetProductData";
 import ExternalLink from "@mui/material/Link";
-import { MUSIC_CATEGORIES } from "../variables";
+import { MUSIC_CATEGORIES } from "../constants";
 import { DiscogsCheckerCell } from "./DiscogsCheckerCell";
 import { GridToolbar } from "./GridToolbar";
 import { CustomNoRowsOverlay } from "./NoRowsOverlay";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 
 type Props = {
   category: {
@@ -23,7 +25,7 @@ type Props = {
 };
 
 export const ResultsGrid = ({ category }: Props) => {
-  const [data, loading] = useGetProductData(category);
+  const [data, loading, error] = useGetProductData(category);
   const { name } = category;
 
   const { section } = useParams();
@@ -32,7 +34,7 @@ export const ResultsGrid = ({ category }: Props) => {
 
   const handleCellClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>
+    params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>,
   ) => {
     const cellValue = params.row[params.field];
     navigator.clipboard
@@ -47,7 +49,7 @@ export const ResultsGrid = ({ category }: Props) => {
 
   const availabilityOptions = data
     ? Array.from(
-        new Set(data.map((hit) => hit.availability.availabilityStatement))
+        new Set(data.map((hit) => hit.availability.availabilityStatement)),
       )
     : [];
 
@@ -89,8 +91,10 @@ export const ResultsGrid = ({ category }: Props) => {
       // valueFormatter: (params) =>
       //   params.value ? `$${params.value.toFixed(2)}` : "-",
       renderCell: (params) => {
-        return <Link to={`/ean/${params.row.ean}`} >${params.value.toFixed(2)}</Link>
-      }
+        return (
+          <Link to={`/ean/${params.row.ean}`}>${params.value.toFixed(2)}</Link>
+        );
+      },
     },
     {
       field: "full",
@@ -154,7 +158,7 @@ export const ResultsGrid = ({ category }: Props) => {
         const { coreTicketPrice, displayPriceInc } = pricing;
         const { ean13, model } = product;
         const savePercent = Math.round(
-          ((coreTicketPrice - displayPriceInc) / coreTicketPrice) * 100
+          ((coreTicketPrice - displayPriceInc) / coreTicketPrice) * 100,
         );
         const saveDollar = (coreTicketPrice - displayPriceInc).toFixed(2);
 
@@ -181,22 +185,32 @@ export const ResultsGrid = ({ category }: Props) => {
       })
     : [];
 
+  if (error) {
+    return (
+      <Box sx={{ p: 3, textAlign: "center", color: "error.main" }}>
+        <strong>Error loading products:</strong> {error}
+      </Box>
+    );
+  }
+
   return (
-    <DataGrid
-      loading={loading}
-      rows={loading ? [] : rows}
-      columns={columns}
-      density="compact"
-      slots={{
-        toolbar: GridToolbar,
-        noRowsOverlay: CustomNoRowsOverlay,
-      }}
-      initialState={{
-        pagination: {
-          paginationModel: { page: 0, pageSize: 50 },
-        },
-      }}
-      pageSizeOptions={[50, 100, 150, 200]}
-    />
+    <Stack width="100%" height="100%" p={2}>
+      <DataGrid
+        loading={loading}
+        rows={loading ? [] : rows}
+        columns={columns}
+        density="compact"
+        slots={{
+          toolbar: GridToolbar,
+          noRowsOverlay: CustomNoRowsOverlay,
+        }}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 50 },
+          },
+        }}
+        pageSizeOptions={[50, 100, 150, 200]}
+      />
+    </Stack>
   );
 };

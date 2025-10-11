@@ -25,7 +25,7 @@ root.render(
           <Route path="/:section" element={<App />}>
             <Route path=":categoryName" element={<App />} />
           </Route>
-          <Route path="contact" element={"howdy"} />
+          <Route path="contact" element="howdy" />
           <Route path="/ean/:ean" element={<SteppedLineChart />} />
         </Routes>
       </ThemeProvider>

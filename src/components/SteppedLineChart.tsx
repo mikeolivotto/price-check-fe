@@ -96,7 +96,7 @@ export const SteppedLineChart = () => {
 
   return (
     <Stack direction="row" justifyContent="center">
-      <Box width={"90%"}>
+      <Box width="90%">
         <Line
           options={options(chartTitle)}
           data={data(formattedDates, prices)}

@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { Hit, ProductSearchResponse } from "../types/product-search-types";
 import { replaceAmpersand } from "../helpers/string-helpers";
-import { SEARCH_URL } from "../variables";
+import { SEARCH_URL } from "../constants";
 
-export const fetchCategoryProductData = async (categoryName: string, pagesToFetch: number) => {
+export const fetchCategoryProductData = async (
+  categoryName: string,
+  pagesToFetch: number,
+) => {
   try {
     const responseData: Hit[] = [];
 
@@ -36,16 +39,17 @@ export const fetchCategoryProductData = async (categoryName: string, pagesToFetc
     return responseData;
   } catch (error) {
     console.error("Error:", error);
-    return []
+    return [];
   }
 };
 
 export const useGetProductData = (category: {
   name: string;
   total: number;
-}): [Hit[] | null, boolean] => {
+}): [Hit[] | null, boolean, string | null] => {
   const [returnedData, setReturnedData] = useState<Hit[] | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const categoryName = replaceAmpersand(category.name, "%20%26%20");
@@ -54,6 +58,7 @@ export const useGetProductData = (category: {
     const pagesToFetch = pagesOfData > 12 ? 12 : pagesOfData;
 
     setLoading(true);
+    setError(null);
 
     const fetchData = async () => {
       try {
@@ -77,6 +82,12 @@ export const useGetProductData = (category: {
             },
           });
 
+          if (!response.ok) {
+            throw new Error(
+              `Failed to fetch product data (Status: ${response.status})`,
+            );
+          }
+
           const data: ProductSearchResponse = await response.json();
 
           data.results.forEach((result) => {
@@ -85,15 +96,22 @@ export const useGetProductData = (category: {
             });
           });
         }
+
+        if (responseData.length === 0) {
+          setError("No products found for this category.");
+        }
+
         setReturnedData(responseData);
-        setLoading(false);
       } catch (error) {
         console.error("Error:", error);
+        setReturnedData(null);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [category]);
 
-  return [returnedData, loading];
+  return [returnedData, loading, error];
 };

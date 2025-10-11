@@ -59,7 +59,7 @@ export const DiscogsCheckerCell = ({ value }: Props) => {
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {value}
-      <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement={"right"}>
+      <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} placement="right">
         <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
           {showThis()}
         </Box>

@@ -2,9 +2,9 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useCategoryData } from "../hooks/useCategoryData";
+import { useCategoryData } from "../../hooks/useCategoryData";
 
-export const CategorySelect = () => {
+export const CategoryDropdown = () => {
   const {
     categories: categoryData,
     selectedCategory,
