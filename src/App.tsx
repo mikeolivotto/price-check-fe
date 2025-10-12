@@ -12,7 +12,7 @@ function App() {
     <Stack className="App" height="100vh" style={{ width: "100%" }}>
       <Header />
 
-      <CategorySelect />
+      <CategorySelect isExpanded={!selectedCategory} />
 
       {selectedCategory && (
         <Stack sx={{ flex: 1, overflow: "hidden" }}>

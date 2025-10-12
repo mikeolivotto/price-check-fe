@@ -1,16 +1,29 @@
-import { Box, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { CategoryDropdown } from "./CategoryDropdown";
 import { useCategoryData } from "../../hooks/useCategoryData";
 import { useEffect } from "react";
 
-export const CategorySelect = () => {
+interface CategorySelectProps {
+  isExpanded?: boolean;
+}
+
+export const CategorySelect = ({ isExpanded = false }: CategorySelectProps) => {
   const { categories, error, fetchCategories } = useCategoryData();
   useEffect(() => {
     fetchCategories();
   }, []);
 
   return (
-    <Box border={1} sx={{ flexShrink: 0 }}>
+    <Stack
+      sx={{
+        flexShrink: 0,
+        padding: 2,
+        flex: isExpanded ? 1 : 0,
+        justifyContent: "center" ,
+        alignItems: "center",
+        transition: "all 0.3s ease",
+      }}
+    >
       {categories && (
         <>
           <Typography component="p" sx={{ mt: "10px" }}>
@@ -24,6 +37,6 @@ export const CategorySelect = () => {
           Oops! Something went wrong!
         </Typography>
       )}
-    </Box>
+    </Stack>
   );
 };

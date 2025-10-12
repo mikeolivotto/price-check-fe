@@ -5,17 +5,17 @@ import {
   GridRowsProp,
   GridTreeNodeWithRender,
 } from "@mui/x-data-grid";
-import { priceComparator } from "../helpers/string-helpers";
-import { useGetProductData } from "../hooks/useGetProductData";
-import ExternalLink from "@mui/material/Link";
-import { MUSIC_CATEGORIES } from "../constants";
-import { DiscogsCheckerCell } from "./DiscogsCheckerCell";
-import { GridToolbar } from "./GridToolbar";
-import { CustomNoRowsOverlay } from "./NoRowsOverlay";
+import { priceComparator } from "../../helpers/string-helpers";
+import { useGetProductData } from "../../hooks/useGetProductData";
+import { MUSIC_CATEGORIES } from "../../constants";
+import { DiscogsCheckerCell } from "../DiscogsCheckerCell";
+import { GridToolbar } from "../GridToolbar";
+import { CustomNoRowsOverlay } from "../NoRowsOverlay";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import { ProductLink } from "./ProductLink";
 
 type Props = {
   category: {
@@ -60,21 +60,34 @@ export const ResultsGrid = ({ category }: Props) => {
       width: 300,
       resizable: false,
       renderCell: (params) => (
-        <div onClick={(event) => handleCellClick(event, params)}>
+        <Box
+          maxWidth="100%"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            overflow: "hidden",
+            "&:hover .launch-icon": {
+              opacity: 1,
+            },
+          }}
+        >
           {params.row.slug ? (
-            <ExternalLink
+            <ProductLink
               href={`https://www.jbhifi.com.au/products/${params.row.slug}`}
-              underline="hover"
-              target="_blank"
-              rel="noreferrer"
-              color="secondary"
+              name={params.row.product}
+            />
+          ) : (
+            <Box
+              sx={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
             >
               {params.row.product}
-            </ExternalLink>
-          ) : (
-            params.row.product
+            </Box>
           )}
-        </div>
+        </Box>
       ),
     },
     {
@@ -142,7 +155,7 @@ export const ResultsGrid = ({ category }: Props) => {
       field: "availability",
       headerName: "Availability",
       width: 250,
-      type: "singleSelect",
+      // type: "singleSelect",
       valueOptions: availabilityOptions,
     },
   ];
@@ -194,7 +207,7 @@ export const ResultsGrid = ({ category }: Props) => {
   }
 
   return (
-    <Stack width="100%" height="100%" p={2}>
+    <Stack p={2} sx={{ flex: 1, overflow: "hidden" }}>
       <DataGrid
         loading={loading}
         rows={loading ? [] : rows}

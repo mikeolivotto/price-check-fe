@@ -20,7 +20,7 @@ export const CategoryDropdown = () => {
   };
 
   return (
-    <FormControl sx={{ m: "10px", minWidth: 200 }} size="small">
+    <FormControl sx={{ m: "10px", minWidth: 200, maxWidth: 500 }} size="small">
       <InputLabel id="category-select-label">Category</InputLabel>
       <Select
         labelId="category-select-label"
