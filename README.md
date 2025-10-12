@@ -1,6 +1,6 @@
-# Price Check Frontend
+# JB Price Checker
 
-A React application for checking prices of products at JB Hi-Fi
+A React application for checking and comparing product prices at JB Hi-Fi
 
 ## Tech Stack
 
@@ -119,7 +119,7 @@ Add to your VSCode settings:
 ## Project Structure
 
 ```
-price-check-fe/
+jb-price-checker/
 ├── src/
 │   ├── components/      # React components
 │   ├── hooks/           # Custom React hooks

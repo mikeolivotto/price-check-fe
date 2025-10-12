@@ -4,12 +4,13 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/jb-price-checker/',
   plugins: [react(), tsconfigPaths()],
   server: {
     port: 3005,
     open: true,
   },
   build: {
-    outDir: 'build',
+    outDir: 'gh-pages',
   },
 })
