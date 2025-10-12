@@ -208,7 +208,7 @@ export const ResultsGrid = ({ category }: Props) => {
   }
 
   return (
-    <Stack p={2} sx={{ flex: 1, overflow: "hidden" }}>
+    <Stack alignItems="center" p={2} sx={{ flex: 1, overflow: "hidden" }}>
       <DataGrid
         key={name}
         loading={loading}
@@ -225,6 +225,11 @@ export const ResultsGrid = ({ category }: Props) => {
           },
         }}
         pageSizeOptions={[50, 100, 150, 200]}
+        sx={{
+          width: rows.length === 0 ? "100%" : "fit-content",
+          maxWidth: "100%",
+          height: "100%",
+        }}
       />
     </Stack>
   );
