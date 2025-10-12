@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import {
   GridToolbarColumnsButton,
   GridToolbarContainer,
@@ -13,19 +14,19 @@ export const GridToolbar = () => {
     <GridToolbarContainer
       sx={{
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "flex-end",
         alignItems: "center",
         color: "black",
       }}
     >
-      <div>
-        <GridToolbarColumnsButton  color="secondary" />
-        <GridToolbarFilterButton  color="secondary" />
-        {section === "secret" && <GridToolbarExport  color="secondary" />}
-      </div>
-      <div>
+      <Box>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        {section === "secret" && <GridToolbarExport color="secondary" />}
+      </Box>
+      <Box>
         <GridToolbarQuickFilter />
-      </div>
+      </Box>
     </GridToolbarContainer>
   );
 };

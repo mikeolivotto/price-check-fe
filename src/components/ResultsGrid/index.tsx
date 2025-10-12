@@ -4,6 +4,7 @@ import {
   GridRenderCellParams,
   GridRowsProp,
   GridTreeNodeWithRender,
+  GridValueFormatterParams,
 } from "@mui/x-data-grid";
 import { priceComparator } from "../../helpers/string-helpers";
 import { useGetProductData } from "../../hooks/useGetProductData";
@@ -59,7 +60,7 @@ export const ResultsGrid = ({ category }: Props) => {
       headerName: isMusicCategory ? "Release" : "Product",
       width: 300,
       resizable: false,
-      renderCell: (params) => (
+      renderCell: (params: GridRenderCellParams) => (
         <Box
           maxWidth="100%"
           sx={{
@@ -103,7 +104,7 @@ export const ResultsGrid = ({ category }: Props) => {
       sortComparator: priceComparator,
       // valueFormatter: (params) =>
       //   params.value ? `$${params.value.toFixed(2)}` : "-",
-      renderCell: (params) => {
+      renderCell: (params: GridRenderCellParams) => {
         return (
           <Link to={`/ean/${params.row.ean}`}>${params.value.toFixed(2)}</Link>
         );
@@ -114,14 +115,14 @@ export const ResultsGrid = ({ category }: Props) => {
       headerName: "Full Price",
       type: "number",
       sortComparator: priceComparator,
-      valueFormatter: (params) =>
+      valueFormatter: (params: GridValueFormatterParams) =>
         params.value ? `$${params.value.toFixed(2)}` : "-",
     },
     {
       field: "savePercent",
       headerName: "Save (%)",
       type: "number",
-      valueFormatter: (params) =>
+      valueFormatter: (params: GridValueFormatterParams) =>
         isNaN(params.value) ? "-" : `${Math.round(params.value)}%`,
     },
     {
@@ -129,14 +130,14 @@ export const ResultsGrid = ({ category }: Props) => {
       headerName: "Save ($)",
       type: "number",
       sortComparator: priceComparator,
-      valueFormatter: (params) =>
+      valueFormatter: (params: GridValueFormatterParams) =>
         isNaN(params.value) ? "-" : `$${params.value}`,
     },
     {
       field: "ean",
       headerName: "EAN",
       width: 150,
-      renderCell: (params) => (
+      renderCell: (params: GridRenderCellParams) => (
         <div onClick={(event) => handleCellClick(event, params)}>
           <DiscogsCheckerCell value={params.value} />
         </div>
@@ -145,7 +146,7 @@ export const ResultsGrid = ({ category }: Props) => {
     {
       field: "model",
       headerName: isMusicCategory ? "Cat. No." : "Model No.",
-      renderCell: (params) => (
+      renderCell: (params: GridRenderCellParams) => (
         <div onClick={(event) => handleCellClick(event, params)}>
           <DiscogsCheckerCell value={params.value} />
         </div>
@@ -155,7 +156,7 @@ export const ResultsGrid = ({ category }: Props) => {
       field: "availability",
       headerName: "Availability",
       width: 250,
-      // type: "singleSelect",
+      type: "singleSelect",
       valueOptions: availabilityOptions,
     },
   ];
@@ -209,6 +210,7 @@ export const ResultsGrid = ({ category }: Props) => {
   return (
     <Stack p={2} sx={{ flex: 1, overflow: "hidden" }}>
       <DataGrid
+        key={name}
         loading={loading}
         rows={loading ? [] : rows}
         columns={columns}
