@@ -9,16 +9,12 @@ import { Stack } from "@mui/material";
 function App() {
   const { selectedCategory } = useCategoryData();
   return (
-    <Stack className="App" height="100vh" style={{ width: "100%" }}>
+    <Stack className="App" style={{ height: "100dvh", width: "100%" }}>
       <Header />
 
       <CategorySelect isExpanded={!selectedCategory} />
 
-      {selectedCategory && (
-        <Stack sx={{ flex: 1, overflow: "hidden" }}>
-          <ResultsGrid category={selectedCategory} />
-        </Stack>
-      )}
+      {selectedCategory && <ResultsGrid category={selectedCategory} />}
     </Stack>
   );
 }

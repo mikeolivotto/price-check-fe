@@ -208,24 +208,31 @@ export const ResultsGrid = ({ category }: Props) => {
   }
 
   return (
-    <Stack p={2} sx={{ flex: 1, overflow: "hidden" }}>
-      <DataGrid
-        key={name}
-        loading={loading}
-        rows={loading ? [] : rows}
-        columns={columns}
-        density="compact"
-        slots={{
-          toolbar: GridToolbar,
-          noRowsOverlay: CustomNoRowsOverlay,
-        }}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 50 },
-          },
-        }}
-        pageSizeOptions={[50, 100, 150, 200]}
-      />
+    <Stack sx={{ flex: 1, overflow: "hidden", minHeight: "70vh" }}>
+      <Stack alignItems="center" p={2} sx={{ flex: 1, overflow: "hidden" }}>
+        <DataGrid
+          key={name}
+          loading={loading}
+          rows={loading ? [] : rows}
+          columns={columns}
+          density="compact"
+          slots={{
+            toolbar: GridToolbar,
+            noRowsOverlay: CustomNoRowsOverlay,
+          }}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 50 },
+            },
+          }}
+          pageSizeOptions={[50, 100, 150, 200]}
+          sx={{
+            width: rows.length === 0 ? "100%" : "fit-content",
+            maxWidth: "100%",
+            height: "100%",
+          }}
+        />
+      </Stack>
     </Stack>
   );
 };
