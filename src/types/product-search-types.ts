@@ -81,28 +81,59 @@ export interface Hit {
   productTags?: ProductTags;
   service?: Service;
   manually_loaded?: boolean;
+  showPerksPrice?: boolean;
+  perksPricing?: any;
+  barcode?: string;
+  tieredDetails?: any[];
+  isMarketplace?: boolean;
+  mixNMatchBenefits?: any[];
+  category_levels?: CategoryLevels;
+  familyId?: string;
+  deliveryTag?: string;
+  year_combined_bucket_stores?: number;
+  year_combined_bucket_TOTAL?: number;
+  month_combined_bucket_stores?: number;
+  month_combined_bucket_TOTAL?: number;
+  _collections?: any[];
+  priceBannerTag?: BannerTags;
+  collectionHandles?: string[];
+  categoryBrand?: string;
+  availabilityRank?: number;
+}
+
+export interface CategoryLevels {
+  level0?: string;
+  level1?: string;
+  level2?: string;
+  level3?: string;
 }
 
 export interface HitFacets {
-  Director: string[];
-  Actors: string[];
-  "Film Genre": string[];
-  Label: string[];
+  Director?: string[];
+  Actors?: string[];
+  "Film Genre"?: string[];
+  Label?: string[];
+  Artist?: string[];
   Audio?: string[];
   Subtitles?: string[];
-  "Running Time": number[];
-  "Aspect ratio": string[];
-  "Region Coding": string[];
-  "TV Standard": string[];
-  Rating: string[];
+  "Running Time"?: number[];
+  "Aspect ratio"?: string[];
+  "Region Coding"?: string[];
+  "TV Standard"?: string[];
+  Rating?: string[];
   "Consumer Advice"?: string[];
-  "Year of Release": number[];
-  "Primary Format - Movies/TV": string[];
+  "Year of Release"?: number[];
+  "Primary Format - Movies/TV"?: string[];
+  "Primary Format - Music"?: string[];
+  "Music Genre Primary"?: string[];
+  "Music Genre Secondary"?: string[];
   productRating?: number[];
-  Category: string[];
-  "Primary Category": string[];
-  Availability: string[];
-  Price: number[];
+  Category?: string[];
+  "Primary Category"?: string[];
+  Availability?: string[];
+  Price?: number[];
+  Condition?: string[];
+  "Sold by"?: string[];
 }
 
 export interface BannerTags {
@@ -119,20 +150,22 @@ export interface PromoTag {
 
 export interface Product {
   id: string;
-  ean13: string;
+  ean13?: string;
   description: string;
   model: string;
   brand: string;
   departmentCode: number;
   productGroupId: number;
-  supplierProductDetails: SupplierProductDetail[];
+  seasonCode?: string;
+  supplierProductDetails?: SupplierProductDetail[];
   packagedDimensions: PackagedDimensions;
   releaseDate: string;
   limitPerOrder: number;
   freightPrice: number;
   limitedRunPromotionItems: any[];
-  campaigns: any[];
-  hasOnlineCategory: boolean;
+  campaigns?: any[];
+  hasOnlineCategory?: boolean;
+  seller?: Seller;
   format: string;
   showReviews: boolean;
   averageProductReviewRating?: number;
@@ -142,6 +175,8 @@ export interface Product {
   releaseQuarter: string;
   productFlags: ProductFlag[];
   releaseDateText?: string;
+  eligibleForServices?: boolean;
+  freeBonusSkus?: any[];
 }
 
 export interface SupplierProductDetail {
@@ -159,56 +194,75 @@ export interface PackagedDimensions {
   weight: number;
 }
 
+export interface Seller {
+  id: number;
+  name: string;
+}
+
 export interface ProductFlag {
   Id: number;
   Name: string;
+  Start?: string | null;
+  Finish?: string | null;
 }
 
 export interface ProductGroup {
   id: number;
   description: string;
-  timestamp: string;
+  timestamp?: string;
 }
 
 export interface Department {
   id: number;
   description: string;
-  timestamp: string;
+  timestamp?: string;
 }
 
 export interface Display {
   artist: string;
-  tracklist: any[];
+  tracklist: Tracklist[];
   actors: string;
   directors: string;
   images: Image[];
   keyFeatures: any[];
   categoryHierarchy: string[];
   graphicAttributes: any[];
+  messages?: any[];
+}
+
+export interface Tracklist {
+  trackGroup: string;
+  tracks: Track[];
+}
+
+export interface Track {
+  trackNumber: number;
+  artist: string;
+  title: string;
 }
 
 export interface Image {
-  ResourceId: string;
-  Timestamp: string;
+  ResourceId?: string;
+  Timestamp?: string;
   ImageIndex?: number;
   ImageCategory: string;
-  Extension: string;
-  ImageHash: string;
-  ImageName: string;
+  Extension?: string;
+  ImageHash?: string;
+  ImageName?: string;
   ImageUrl: string;
 }
 
 export interface Availability {
-  channelsAllowedToSellProduct: any[];
+  channelsAllowedToSellProduct?: any[];
   displayProduct: boolean;
   canBuyOnline: boolean;
   canPreOrder: boolean;
   fulfilment: string;
   productLifecycle: string;
-  preOrderLimit: PreOrderLimit;
+  preOrderLimit?: PreOrderLimit;
   deliveryFromOnlineWarehouseOnly: boolean;
   deliveryConstraint: string;
-  ranging: string;
+  ranging?: string;
   deliveryStatus: string;
   clickNCollectStatus: string;
   cashNCarryStatus: string;
@@ -226,13 +280,19 @@ export interface PreOrderLimit {
 
 export interface Pricing {
   displayPriceInc: number;
+  displayPriceEx?: number;
   displayPriceTax: number;
   wasPrice?: number;
   saveAmount?: number;
   displayWasPrice: boolean;
+  priceAfterCashback?: number;
+  cashbackAmount?: number;
   displayPriceAfterCashback: boolean;
   coreTicketPrice: number;
-  wasPriceExpiryDate: string;
+  promosApplied?: any[];
+  createdDate?: string;
+  timestamp?: string;
+  wasPriceExpiryDate?: string;
 }
 
 export interface GoogleTagManager {
@@ -246,6 +306,8 @@ export interface GoogleTagManager {
   dimension6: string;
   dimension7: string;
   dimension3?: string;
+  showWasPrice?: boolean;
+  saveAmount?: number;
   variants?: Variant[];
 }
 
