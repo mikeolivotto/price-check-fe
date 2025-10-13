@@ -161,13 +161,18 @@ export const ResultsGrid = ({ category }: Props) => {
   const rows: GridRowsProp = data
     ? data.map((hit, index: any) => {
         const { availability, display, pricing, product, handle, title, barcode } = hit;
-        const { coreTicketPrice, displayPriceInc } = pricing;
+        const { coreTicketPrice, displayPriceInc, wasPrice, displayWasPrice } = pricing;
         const { ean13, model } = product;
         const eanCode = barcode || ean13;
+
+        // Use coreTicketPrice if available, otherwise fall back to wasPrice if it's higher than current price
+        const fullPrice = coreTicketPrice ||
+          (displayWasPrice && wasPrice && wasPrice > displayPriceInc ? wasPrice : displayPriceInc);
+
         const savePercent = Math.round(
-          ((coreTicketPrice - displayPriceInc) / coreTicketPrice) * 100,
+          ((fullPrice - displayPriceInc) / fullPrice) * 100,
         );
-        const saveDollar = (coreTicketPrice - displayPriceInc).toFixed(2);
+        const saveDollar = (fullPrice - displayPriceInc).toFixed(2);
 
         const rowData = {
           id: index,
@@ -175,17 +180,17 @@ export const ResultsGrid = ({ category }: Props) => {
           slug: handle,
           artist: display.artist,
           current: displayPriceInc,
-          full: coreTicketPrice,
+          full: fullPrice,
           savePercent: savePercent,
           saveDollar: saveDollar,
           availability: availability.availabilityStatement,
-          ean: eanCode,
-          model: model,
         };
 
         if (section === "secret") {
           return {
             ...rowData,
+            ean: eanCode,
+            model: model,
           };
         }
         return rowData;
