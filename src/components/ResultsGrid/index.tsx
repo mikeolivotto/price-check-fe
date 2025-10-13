@@ -13,7 +13,6 @@ import { DiscogsCheckerCell } from "../DiscogsCheckerCell";
 import { GridToolbar } from "../GridToolbar";
 import { CustomNoRowsOverlay } from "../NoRowsOverlay";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { ProductLink } from "./ProductLink";
@@ -102,13 +101,13 @@ export const ResultsGrid = ({ category }: Props) => {
       headerName: "Price",
       type: "number",
       sortComparator: priceComparator,
-      // valueFormatter: (params) =>
-      //   params.value ? `$${params.value.toFixed(2)}` : "-",
-      renderCell: (params: GridRenderCellParams) => {
-        return (
-          <Link to={`/ean/${params.row.ean}`}>${params.value.toFixed(2)}</Link>
-        );
-      },
+      valueFormatter: (params) =>
+        params.value ? `$${params.value.toFixed(2)}` : "-",
+      // renderCell: (params: GridRenderCellParams) => {
+      //   return (
+      //     <Link to={`/ean/${params.row.ean}`}>${params.value.toFixed(2)}</Link>
+      //   );
+      // },
     },
     {
       field: "full",
