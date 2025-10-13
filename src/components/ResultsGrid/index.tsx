@@ -4,13 +4,11 @@ import {
   GridRenderCellParams,
   GridRowsProp,
   GridTreeNodeWithRender,
-  GridValueFormatterParams,
 } from "@mui/x-data-grid";
 import { priceComparator } from "../../helpers/string-helpers";
 import { useGetProductData } from "../../hooks/useGetProductData";
 import { MUSIC_CATEGORIES } from "../../constants";
 import { DiscogsCheckerCell } from "../DiscogsCheckerCell";
-import { GridToolbar } from "../GridToolbar";
 import { CustomNoRowsOverlay } from "../NoRowsOverlay";
 import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -58,7 +56,6 @@ export const ResultsGrid = ({ category }: Props) => {
       field: "product",
       headerName: isMusicCategory ? "Release" : "Product",
       width: 300,
-      resizable: false,
       renderCell: (params: GridRenderCellParams) => (
         <Box
           maxWidth="100%"
@@ -94,15 +91,13 @@ export const ResultsGrid = ({ category }: Props) => {
       field: "artist",
       headerName: isMusicCategory ? "Band/Artist" : "Model name",
       width: 300,
-      resizable: false,
     },
     {
       field: "current",
       headerName: "Price",
       type: "number",
       sortComparator: priceComparator,
-      valueFormatter: (params) =>
-        params.value ? `$${params.value.toFixed(2)}` : "-",
+      valueFormatter: (value: number) => (value ? `$${value.toFixed(2)}` : "-"),
       // renderCell: (params: GridRenderCellParams) => {
       //   return (
       //     <Link to={`/ean/${params.row.ean}`}>${params.value.toFixed(2)}</Link>
@@ -114,23 +109,21 @@ export const ResultsGrid = ({ category }: Props) => {
       headerName: "Full Price",
       type: "number",
       sortComparator: priceComparator,
-      valueFormatter: (params: GridValueFormatterParams) =>
-        params.value ? `$${params.value.toFixed(2)}` : "-",
+      valueFormatter: (value: number) => (value ? `$${value.toFixed(2)}` : "-"),
     },
     {
       field: "savePercent",
       headerName: "Save (%)",
       type: "number",
-      valueFormatter: (params: GridValueFormatterParams) =>
-        isNaN(params.value) ? "-" : `${Math.round(params.value)}%`,
+      valueFormatter: (value: number) =>
+        isNaN(value) ? "-" : `${Math.round(value)}%`,
     },
     {
       field: "saveDollar",
       headerName: "Save ($)",
       type: "number",
       sortComparator: priceComparator,
-      valueFormatter: (params: GridValueFormatterParams) =>
-        isNaN(params.value) ? "-" : `$${params.value}`,
+      valueFormatter: (value: number) => (isNaN(value) ? "-" : `$${value}`),
     },
     {
       field: "ean",
@@ -215,8 +208,8 @@ export const ResultsGrid = ({ category }: Props) => {
           rows={loading ? [] : rows}
           columns={columns}
           density="compact"
+          showToolbar
           slots={{
-            toolbar: GridToolbar,
             noRowsOverlay: CustomNoRowsOverlay,
           }}
           initialState={{
